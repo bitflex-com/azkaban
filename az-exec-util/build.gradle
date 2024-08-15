@@ -14,9 +14,25 @@
  * the License.
  */
 apply plugin: 'c'
+
+def detectedArch = System.getProperty("os.arch")
+def targetArch
+
 model {
+    platforms {
+        arm64 {
+            architecture "arm64"
+        }
+        x86 {
+            architecture "x86"
+        }
+    }
+
     components {
         main(NativeExecutableSpec) {
+            if (detectedArch == "aarch64") {
+                targetPlatform "arm64"
+            }
             sources {
                 c {
                     source {
@@ -28,3 +44,4 @@ model {
         }
     }
 }
+
